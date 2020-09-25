@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      // city population json file
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const arr = [];
+
+      // fetch returns a Promise containing a Response object
+      // Response implements Body interface: Body.json() reads and parse the response as json. It returns another Promise with the resulting json as argument
+      fetch(endpoint)
+        .then((response) => response.json())
+        .then((data) => arr.push(...data));
+
+      /**
+       * Find matches city/state based on strToMatch
+       * @param {String} strToMatch  a string to match
+       * return {Array}              an array of objects whose city/state attributes matches given string
+       */
+      function findMatch(strToMatch) {
+        // regular expression can be constructed as follows:
+        // const re = /pattern/flags;
+        // const re = new RegExp('pattern', 'flags')
+        // Use RegExp constructor if pattern will be changing or you dont know the pattern and are getting it from another source.
+        // flags are optional (g=global,  i=ignoreCase)
+        const re = new RegExp(strToMatch, "gi");
+        return arr.filter(
+          (data) => data.city.match(re) || data.state.match(re)
+        );
+      }
+
+      /** 
+       * Sort matches in descending order, mutate array in place (Redundant since dataset is already in descending order)
+       @param {Array} matches  array of objects whose city/state matched user input
+       */
+      function orderMatches(matches) {
+        matches.sort(function (a, b) {
+          return a.population - b.population;
+        });
+        matches.reverse();
+      }
+
+      /**
+       * Display matches cities and state, along with its population in suggestion
+       */
+      function displayMatch() {
+        const matches = findMatch(this.value);
+        orderMatches(matches);
+        const displayHTML = matches
+          .map((data) => {
+            // highlight matches
+            const re = new RegExp(this.value, "gi");
+            const cityName = data.city.replace(
+              re,
+              `<span class="hl">${this.value}</span>`
+            );
+
+            const stateName = data.state.replace(
+              re,
+              `<span class="hl">${this.value}</span>`
+            );
+
+            // format population with commas as thousands separators
+            const population = data.population
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+            return `
+            <li>
+              <span class="name"> ${cityName}, ${stateName} </span>
+              <span class="population"> ${population} </span>
+            </li>
+          `;
+          })
+          .join("");
+        suggestions.innerHTML = displayHTML;
+      }
+
+      const query = document.querySelector(".search");
+      const suggestions = document.querySelector(".suggestions");
+      query.addEventListener("keyup", displayMatch);
+    </script>
+  </body>
+</html>

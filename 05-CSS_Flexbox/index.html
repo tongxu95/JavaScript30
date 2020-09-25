@@ -149,12 +149,17 @@
 
     <script>
       const panels = document.querySelectorAll(".panel");
-
+      /**
+       * ToggleOpen adds panel and text enlargement to panel object if the class does not exist, and removes the class from the element if it is already added
+       */
       function toggleOpen() {
-        // toggle adds the class to the element if the class does not exist, and removes the class from the element if it is already added
         this.classList.toggle("open");
       }
 
+      /**
+       * textAnimation add text animation to panel object if the class does not exist, and removes the class from the element if it is already added
+       * @param {Event} e  transitionend event
+       */
       function textAnimation(e) {
         // there are two transition event, font size and flex grew, both with 0.7s transition time, so without the if statement, js will add and immediately remove textAnimation
         if (e.propertyName.includes("flex")) {

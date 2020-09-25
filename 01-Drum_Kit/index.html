@@ -56,7 +56,10 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
-      // play sound and display animation with corresponding keys are pressed
+      /**
+       * Play sound and display animation when corresponding keys are pressed
+       * @param {Event} e  keydown event
+       */
       function playSoundAndAnimation(e) {
         const sounds = document.getElementsByTagName("audio");
 
@@ -80,7 +83,10 @@
         animationKey.classList.add("playing");
       }
 
-      // remove animation after timeout
+      /**
+       * Remove animation after transition has timed out.
+       * @param {Event} e  transitionend event
+       */
       function removeAnimation(e) {
         this.classList.remove("playing");
       }
