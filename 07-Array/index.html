@@ -26,14 +26,15 @@
 
       // Some and Every Checks
       // Array.prototype.some() // is at least one person 19 or older?
+      const currentYear = new Date().getFullYear();
       console.log(
         "At least one person 19 or order: " +
-          people.some((person) => 2020 - person.year >= 19)
+          people.some((person) => currentYear - person.year >= 19)
       );
       // Array.prototype.every() // is everyone 19 or older?
       console.log(
         "Everyone is 19 or order: " +
-          people.every((person) => 2020 - person.year >= 19)
+          people.every((person) => currentYear - person.year >= 19)
       );
 
       // Array.prototype.find()
