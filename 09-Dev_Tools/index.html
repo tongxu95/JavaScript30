@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Tricks!</title>
+  </head>
+  <body>
+    <!-- DOM Break-Point -->
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+    <script>
+      const dogs = [
+        { name: "Snickers", age: 2 },
+        { name: "hugo", age: 8 },
+      ];
+
+      function makeGreen() {
+        const p = document.querySelector("p");
+        p.style.color = "#BADA55";
+        p.style.fontSize = "50px";
+      }
+
+      // Regular
+      console.log("Hello");
+
+      // Interpolated
+      console.log("%s", "💩");
+      // Can also use string template
+
+      // Styled
+      console.log(
+        "%c Styled text",
+        "font-size:50px; text-shadow: 10px 10px 2px grey"
+      );
+
+      // warning!
+      console.warn("Warning message");
+
+      // Error :|
+      console.error("Error message");
+
+      // Info
+      console.info("Info");
+
+      // Testing
+      console.assert(1 === 1, "message");
+      // displays "Assertion failed: message" if condition evaluate to false
+
+      // clearing
+      console.clear();
+
+      // Viewing DOM Elements
+      // console.dir(DOM Element) display dropdown menu containing a list of properties for the specific object
+      const p = document.querySelector("p");
+      console.log(p);
+      console.dir(p);
+
+      console.clear();
+
+      // Grouping together
+      dogs.forEach((dog) => {
+        console.group(`${dog.name}`);
+        console.log(`This is ${dog.name}.`);
+        console.log(`${dog.name} is {dog.year} years old.`);
+        console.log(`${dog.name} is ${dog.year * 7} years old in human years.`);
+        console.groupEnd(`${dog.name}`);
+      });
+
+      // counting
+      console.count("Alice");
+      console.count("Bob");
+      console.count("Alice");
+      console.count("Alice");
+      console.count("Bob");
+      console.count("Bob");
+      console.count("Bob");
+      console.count("Alice");
+      console.count("Alice");
+      console.count("Bob");
+
+      // timing
+      // console.time();
+      // // some code
+      // console.timeEnd();
+
+      // display tabular data
+      console.table(dogs);
+    </script>
+  </body>
+</html>
